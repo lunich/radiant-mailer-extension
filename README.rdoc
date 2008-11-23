@@ -48,6 +48,37 @@ Simple example of a form:
 
 You can specify fields which must be populated or the form will be invalid and will redisplay the page with an error informing the user to populate those fields.
 
+To mark a field as required it's necessary to add block 'required_fields' to the 'mailer' page part.
+
+Simple example of a required field (mailer part):
+
+  required_fields:
+    - name
+
+Simple example of a required field with user-defined message (mailer part):
+
+  required_fields:
+    - name: should not be blank
+
+You can also specify fields which must be validated 'as_email' (i.e. a@b.com).
+
+Simple example of a required field with email address validation (mailer part):
+
+  required_fields:
+    - reply_email: as_email
+
+You can also specify fields which must be validated as defined regexp (i.e. /^\d{2}\.\d{2}\.\d{4}\$/ for date dd.mm.yyyy).
+
+Simple example of a required field with regexp validation (mailer part):
+
+  required_fields:
+    - birthday: /^\d{2}\.\d{2}\.\d{4}\$/
+
+
+=== Required fields (OLD IMPLEMENTATION)
+
+You can specify fields which must be populated or the form will be invalid and will redisplay the page with an error informing the user to populate those fields.
+
 Simple example of a required field:
 
   <r:mailer:form>

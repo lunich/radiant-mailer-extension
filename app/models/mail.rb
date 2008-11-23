@@ -3,7 +3,8 @@ class Mail
 
   def initialize(page, config, data)
     @page, @config, @data = page, config.with_indifferent_access, data
-    @required = @data.delete(:required)
+    #@required = @data.delete(:required)
+    @required = required_fields
     @errors = {}
   end
 
@@ -155,6 +156,20 @@ The following information was posted:
 
   protected
 
+  def required_fields
+    res = {}
+    (@config['required_fields'] || []).each do |field|
+      if field.is_a?(Hash)
+        field.each do |key, value|
+          res[key] = value
+        end
+      else
+        res[field] = "not_blank"
+      end
+    end
+    res
+  end
+  
   def valid_email?(email)
     (email.blank? ? true : email =~ /^[^@]+@([^@.]+\.)[^@]+$/)
   end
