@@ -98,7 +98,7 @@ module MailerTags
     tag.expand if tag.locals.page.last_mail && tag.locals.page.last_mail.sent?
   end
 
-  %w(text password reset checkbox radio hidden file).each do |type|
+  %w(text password checkbox radio hidden file).each do |type|
     desc %{
       Renders a #{type} input tag for a mailer form. The 'name' attribute is required.}
     tag "mailer:#{type}" do |tag|
@@ -109,6 +109,15 @@ module MailerTags
     end
   end
   
+  desc %{Renders a reset input tag for a mailer form.}
+  tag "mailer:reset" do |tag|
+    value = tag.attr['value'] || "reset"
+    tag.attr['name'] ||= 'mailer-reset-button'
+    result = [%(<input type="reset" value="#{value}" #{mailer_attrs(tag)} />)]
+    add_required(result, tag)
+  end
+  
+  
   desc %{
     Renders a submit input tag for a mailer form. Specify a 'src' to
     render as an image submit input tag.}
@@ -116,7 +125,8 @@ module MailerTags
     value = tag.attr['value'] || tag.attr['name']
     tag.attr.merge!("name" => "mailer-form-button")
     type = tag.attr['src'] ? 'image' : 'submit'
-    result = [%(<input onclick="showSubmitPlaceholder();" type="#{type}" value="#{value}" #{mailer_attrs(tag)} />)]
+    src = tag.attr['src'] ? %Q(src="#{tag.attr['src']}" ): ''
+    result = [%(<input onclick="showSubmitPlaceholder();" type="#{type}" #{src}value="#{value}" #{mailer_attrs(tag)} />)]
   end
 
   desc %{

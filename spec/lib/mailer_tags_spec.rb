@@ -174,8 +174,8 @@ describe "MailerTags" do
     end
 
     it "should render an input tag with the type image if src supplied" do
-      pages(:mail_form).should render("<r:mailer:submit src='/img.jpg' />").as(
-        %Q{<input onclick="showSubmitPlaceholder();" type="image" src="/img.jpg" value="foo" id="mailer-form-button" name="mailer[mailer-form-button]" />})
+      pages(:mail_form).should render("<r:mailer:submit src='/img.jpg'/>").as(
+        %Q{<input onclick="showSubmitPlaceholder();" type="image" src="/img.jpg" value="" id="mailer-form-button" name="mailer[mailer-form-button]" />})
     end
 
     it "should render permitted passed attributes as attributes of the input tag" do
@@ -197,17 +197,17 @@ describe "MailerTags" do
   describe "<r:mailer:reset>" do
     it "should render the specified value as the value attribute" do
       pages(:mail_form).should render("<r:mailer:reset value='bar'/>").as(
-        %Q{<input type="submit" value="bar" name="mailer[mailer-reset-button]" />})
+        %Q{<input type="reset" value="bar" id="mailer-reset-button" name="mailer[mailer-reset-button]" />})
     end
     
     it "should render permitted passed attributes as attributes of the input tag" do
       pages(:mail_form).should render("<r:mailer:reset class='bar'/>").as(
-        %Q{<input type="submit" value="reset" name="mailer[mailer-reset-button]" />})
+        %Q{<input type="reset" value="reset" class="bar" id="mailer-reset-button" name="mailer[mailer-reset-button]" />})
     end
     
     it "should not raise an error if the name attribute is not specified" do
       pages(:mail_form).should render("<r:mailer:reset />").as(
-        %Q{<input type="reset" value="reset" name="mailer[mailer-reset-button]" />})
+        %Q{<input type="reset" value="reset" id="mailer-reset-button" name="mailer[mailer-reset-button]" />})
     end
   end
   
